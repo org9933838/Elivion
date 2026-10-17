@@ -1,72 +1,72 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Easy Earn | Member Portal</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-<section class="content-section two-column">
-  <div id="deposit" class="form-card">
-    <span class="eyebrow">ADD FUNDS</span>
-    <h2>Deposit Assistance</h2>
-    <p class="muted">
-      To make a deposit, please contact our Customer Service team
-      on Telegram to receive the current payment instructions.
-    </p>
-
-    <a
-      class="primary-button button-link"
-      href="https://t.me/easy_earn10"
-      target="_blank"
-      rel="noopener noreferrer"
-    >Contact Customer Service</a>
-
-    <p class="muted">
-      Telegram Support: @easy_earn10
-    </p>
-    <p id="depositMessage" class="form-message" aria-live="polite"></p>
+<div id="auth" class="auth">
+  <div class="brand"><b class="logo">E</b><span><b>Easy Earn</b><small>MEMBER PORTAL</small></span></div>
+  <div class="authgrid">
+    <div class="intro">
+      <small>WELCOME TO EASY EARN</small>
+      <h1>Make every task <i>count.</i></h1>
+      <p>Manage your membership, explore available tasks and keep track of your activity from one simple dashboard.</p>
+      <p>✓ Secure account access<br>✓ Task and activity history<br>✓ Member support</p>
+    </div>
+    <form id="authform" class="card">
+      <div class="tabs">
+        <button type="button" id="loginTab" class="sel">Sign in</button>
+        <button type="button" id="regTab">Create account</button>
+      </div>
+      <label id="namebox" class="hide">Full name<input id="name" placeholder="Your full name"></label>
+      <label>Email address<input id="email" type="email" required placeholder="you@example.com"></label>
+      <label>Password<input id="password" type="password" minlength="6" required placeholder="At least 6 characters"></label>
+      <button class="btn main wide" id="authsubmit">Sign in</button>
+      <button type="button" id="forgot" class="link wide">Forgot password?</button>
+      <p id="authmsg" class="msg"></p>
+      <small class="disclaimer">Never share your password or send money to anyone promising guaranteed returns.</small>
+    </form>
   </div>
+</div>
 
-  <div id="withdraw" class="form-card">
-    <span class="eyebrow">INTERNATIONAL PAYOUTS</span>
-    <h2>Withdrawal Request</h2>
-    <p class="muted">
-      Select an available withdrawal method. Requests are subject
-      to balance verification and administrator review.
-    </p>
+<div id="app" class="hide">
+  <aside class="sidebar" id="sidebar">
+    <div class="brand"><b class="logo">E</b><span><b>Easy Earn</b><small>MEMBER PORTAL</small></span></div>
+    <p class="navtitle">WORKSPACE</p>
+    <nav id="nav">
+      <button data-page="home" class="active">⌂ &nbsp; Home</button>
+      <button data-page="vip">✧ &nbsp; VIP Membership</button>
+      <button data-page="tasks">↗ &nbsp; Tasks</button>
+      <button data-page="history">◷ &nbsp; History</button>
+      <button data-page="account">◎ &nbsp; Account</button>
+    </nav>
+    <div class="sidebottom">
+      <p>Need assistance?</p>
+      <button id="supportSide" class="btn outline wide">Contact customer service ↗</button>
+      <button id="logout" class="navbtn">↪ &nbsp; Sign out</button>
+    </div>
+  </aside>
 
-    <label for="withdrawMethod">Withdrawal Method</label>
-    <select id="withdrawMethod" required>
-      <option value="USDT">USDT (Tether)</option>
-      <option value="Visa Card">Visa Card</option>
-    </select>
+  <main>
+    <header>
+      <button id="menu" class="menu">☰</button>
+      <span>Easy Earn　/　<b id="crumb">Home</b></span>
+      <span id="userlabel">Member</span>
+    </header>
 
-    <label for="withdrawAccount" id="withdrawAccountLabel">
-      USDT Wallet Address
-    </label>
-    <input
-      id="withdrawAccount"
-      type="text"
-      placeholder="Enter your USDT wallet address"
-      required
-    >
+    <div class="wrap">
+      <section id="home" class="page">
+        <small class="eyebrow">MEMBER OVERVIEW</small>
+        <h1>Welcome back, <span id="welcome">Member</span></h1>
+        <p class="muted">Here’s an overview of your account and activity.</p>
 
-    <label for="withdrawAmount">Amount (BDT)</label>
-    <input
-      id="withdrawAmount"
-      type="number"
-      min="50"
-      step="1"
-      placeholder="Minimum 50 BDT"
-      required
-    >
-
-    <label for="withdrawPassword">Confirm Account Password</label>
-    <input
-      id="withdrawPassword"
-      type="password"
-      autocomplete="current-password"
-      placeholder="Enter your password"
-      required
-    >
-
-    <button id="withdrawButton" class="primary-button">
-      Submit Withdrawal Request
-    </button>
-    <p id="withdrawMessage" class="form-message" aria-live="polite"></p>
-  </div>
-</section>
+        <div class="balance">
+          <small>AVAILABLE BALANCE</small>
+          <strong id="balance">€0.00</strong>
+          <p>Based on approved account transactions</p>
+          <button data-page="account" class="btn gold">Deposit request ↗</button>
+          <
