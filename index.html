@@ -1,357 +1,72 @@
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#123b2c">
-  <meta name="description" content="Easy Earn - Member dashboard, VIP levels, tasks and account services.">
-  <title>Easy Earn | Member Portal</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header class="topbar">
-    <a href="#" class="brand">
-      <span class="brand-icon">E</span>
-      <span>Easy <b>Earn</b></span>
-    </a>
-    <button id="menuButton" class="menu-button" aria-label="Open menu">☰</button>
-    <nav id="topNav">
-      <a href="#home">Home</a>
-      <a href="#vip">VIP Levels</a>
-      <a href="#tasks">Tasks</a>
-      <a href="#history">History</a>
-      <a href="#account">Account</a>
-    </nav>
-  </header>
+<section class="content-section two-column">
+  <div id="deposit" class="form-card">
+    <span class="eyebrow">ADD FUNDS</span>
+    <h2>Deposit Assistance</h2>
+    <p class="muted">
+      To make a deposit, please contact our Customer Service team
+      on Telegram to receive the current payment instructions.
+    </p>
 
-  <main class="container">
-    <section id="authSection" class="auth-layout">
-      <div class="welcome-panel">
-        <span class="eyebrow">WELCOME TO EASY EARN</span>
-        <h1>A smarter way to manage your earning activities.</h1>
-        <p>Create an account, explore available tasks, check VIP levels and manage your account in one place.</p>
-        <div class="welcome-points">
-          <span>✓ Member dashboard</span>
-          <span>✓ Task activity history</span>
-          <span>✓ Account support</span>
-        </div>
-      </div>
+    <a
+      class="primary-button button-link"
+      href="https://t.me/easy_earn10"
+      target="_blank"
+      rel="noopener noreferrer"
+    >Contact Customer Service</a>
 
-      <div class="auth-card">
-        <div class="auth-tabs">
-          <button class="auth-tab active" data-auth-tab="login">Login</button>
-          <button class="auth-tab" data-auth-tab="register">Register</button>
-        </div>
+    <p class="muted">
+      Telegram Support: @easy_earn10
+    </p>
+    <p id="depositMessage" class="form-message" aria-live="polite"></p>
+  </div>
 
-        <form id="loginForm" class="auth-form">
-          <h2>Welcome back</h2>
-          <p class="muted">Sign in to your Easy Earn account.</p>
-          <label for="loginEmail">Email address</label>
-          <input id="loginEmail" type="email" placeholder="you@example.com" autocomplete="email" required>
-          <label for="loginPassword">Password</label>
-          <input id="loginPassword" type="password" placeholder="Enter your password" autocomplete="current-password" required minlength="6">
-          <button type="submit" class="primary-button">Login to Account</button>
-          <button type="button" id="forgotPassword" class="text-button">Forgot password?</button>
-          <p id="loginMessage" class="form-message" aria-live="polite"></p>
-        </form>
+  <div id="withdraw" class="form-card">
+    <span class="eyebrow">INTERNATIONAL PAYOUTS</span>
+    <h2>Withdrawal Request</h2>
+    <p class="muted">
+      Select an available withdrawal method. Requests are subject
+      to balance verification and administrator review.
+    </p>
 
-        <form id="registerForm" class="auth-form hidden">
-          <h2>Create your account</h2>
-          <p class="muted">Register with your email address.</p>
-          <label for="registerName">Full name</label>
-          <input id="registerName" type="text" placeholder="Your full name" autocomplete="name" required maxlength="80">
-          <label for="registerEmail">Email address</label>
-          <input id="registerEmail" type="email" placeholder="you@example.com" autocomplete="email" required>
-          <label for="registerPassword">Create password</label>
-          <input id="registerPassword" type="password" placeholder="At least 6 characters" autocomplete="new-password" required minlength="6">
-          <label for="confirmPassword">Confirm password</label>
-          <input id="confirmPassword" type="password" placeholder="Enter password again" autocomplete="new-password" required minlength="6">
-          <button type="submit" class="primary-button">Create Account</button>
-          <p id="registerMessage" class="form-message" aria-live="polite"></p>
-        </form>
-      </div>
-    </section>
+    <label for="withdrawMethod">Withdrawal Method</label>
+    <select id="withdrawMethod" required>
+      <option value="USDT">USDT (Tether)</option>
+      <option value="Visa Card">Visa Card</option>
+    </select>
 
-    <section id="appSection" class="hidden">
-      <div class="dashboard-heading" id="home">
-        <div>
-          <span class="eyebrow">MEMBER DASHBOARD</span>
-          <h1>Hello, <span id="memberName">Member</span></h1>
-          <p class="muted">Welcome to your Easy Earn account.</p>
-        </div>
-        <button id="logoutButton" class="outline-button">Log out</button>
-      </div>
+    <label for="withdrawAccount" id="withdrawAccountLabel">
+      USDT Wallet Address
+    </label>
+    <input
+      id="withdrawAccount"
+      type="text"
+      placeholder="Enter your USDT wallet address"
+      required
+    >
 
-      <div class="stats-grid">
-        <article class="stat-card">
-          <span class="stat-label">Available Balance</span>
-          <strong id="balanceValue">৳0.00</strong>
-          <span class="stat-note">Account balance</span>
-        </article>
-        <article class="stat-card">
-          <span class="stat-label">Current VIP</span>
-          <strong id="currentVip">VIP 0</strong>
-          <span class="stat-note">Membership level</span>
-        </article>
-        <article class="stat-card">
-          <span class="stat-label">Completed Tasks</span>
-          <strong id="completedTasks">0</strong>
-          <span class="stat-note">Approved task submissions</span>
-        </article>
-      </div>
+    <label for="withdrawAmount">Amount (BDT)</label>
+    <input
+      id="withdrawAmount"
+      type="number"
+      min="50"
+      step="1"
+      placeholder="Minimum 50 BDT"
+      required
+    >
 
-      <section class="content-section">
-        <div class="section-heading">
-          <div>
-            <span class="eyebrow">ACCOUNT SERVICES</span>
-            <h2>Manage your account</h2>
-          </div>
-        </div>
-        <div class="service-grid">
-          <button class="service-card" data-scroll="deposit">
-            <span class="service-icon">＋</span>
-            <strong>Deposit</strong>
-            <small>Submit a deposit request</small>
-          </button>
-          <button class="service-card" data-scroll="withdraw">
-            <span class="service-icon">↗</span>
-            <strong>Withdraw</strong>
-            <small>Request a withdrawal</small>
-          </button>
-          <button class="service-card" data-scroll="vip">
-            <span class="service-icon">◇</span>
-            <strong>VIP Levels</strong>
-            <small>Explore membership levels</small>
-          </button>
-          <button class="service-card" data-scroll="support">
-            <span class="service-icon">?</span>
-            <strong>Customer Service</strong>
-            <small>Contact our support team</small>
-          </button>
-        </div>
-      </section>
+    <label for="withdrawPassword">Confirm Account Password</label>
+    <input
+      id="withdrawPassword"
+      type="password"
+      autocomplete="current-password"
+      placeholder="Enter your password"
+      required
+    >
 
-      <section id="vip" class="content-section">
-        <div class="section-heading">
-          <div>
-            <span class="eyebrow">MEMBERSHIP</span>
-            <h2>VIP Levels</h2>
-            <p class="muted">Review the membership levels configured by the administrator.</p>
-          </div>
-        </div>
-        <div id="vipGrid" class="vip-grid">
-          <p class="muted">Loading VIP levels...</p>
-        </div>
-      </section>
-
-      <section id="tasks" class="content-section">
-        <div class="section-heading">
-          <div>
-            <span class="eyebrow">DAILY ACTIVITIES</span>
-            <h2>Available Tasks</h2>
-            <p class="muted">Open a task, follow its instructions and submit it for review.</p>
-          </div>
-        </div>
-        <div id="taskList" class="task-list">
-          <p class="muted">Loading available tasks...</p>
-        </div>
-      </section>
-
-      <section id="history" class="content-section">
-        <div class="section-heading">
-          <div>
-            <span class="eyebrow">YOUR ACTIVITY</span>
-            <h2>Task History</h2>
-          </div>
-        </div>
-        <div class="table-wrapper">
-          <table>
-            <thead>
-              <tr>
-                <th>Task</th>
-                <th>VIP</th>
-                <th>Date</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody id="historyTable">
-              <tr><td colspan="4" class="empty-state">No task history available.</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <section class="content-section two-column">
-        <div id="deposit" class="form-card">
-          <span class="eyebrow">ADD FUNDS</span>
-          <h2>Deposit Request</h2>
-          <p class="muted">Contact customer service for the current payment instructions. Your balance will not increase until a payment is verified and approved.</p>
-          <label for="depositAmount">Amount (BDT)</label>
-          <input id="depositAmount" type="number" min="1" step="1" placeholder="Enter amount">
-          <label for="depositMethod">Payment method</label>
-          <select id="depositMethod">
-            <option value="bKash">bKash</option>
-            <option value="Nagad">Nagad</option>
-            <option value="Rocket">Rocket</option>
-            <option value="USDT">USDT</option>
-          </select>
-          <label for="depositReference">Transaction reference (optional)</label>
-          <input id="depositReference" type="text" placeholder="Transaction ID">
-          <button id="depositButton" class="primary-button">Submit Deposit Request</button>
-          <p id="depositMessage" class="form-message" aria-live="polite"></p>
-        </div>
-
-        <div id="withdraw" class="form-card">
-          <span class="eyebrow">PAYOUT</span>
-          <h2>Withdrawal Request</h2>
-          <p class="muted">Enter your payout details carefully. Requests are subject to account verification and administrator review.</p>
-          <label for="withdrawMethod">Withdrawal method</label>
-          <select id="withdrawMethod">
-            <option value="bKash">bKash</option>
-            <option value="Nagad">Nagad</option>
-            <option value="Rocket">Rocket</option>
-            <option value="Bank Transfer">Bank Transfer</option>
-            <option value="USDT">USDT</option>
-          </select>
-          <label for="withdrawAccount">Account number / bank details / USDT address</label>
-          <input id="withdrawAccount" type="text" placeholder="Enter payout details" required>
-          <label for="withdrawAmount">Amount (BDT)</label>
-          <input id="withdrawAmount" type="number" min="50" step="1" placeholder="Minimum 50 BDT">
-          <label for="withdrawPassword">Confirm account password</label>
-          <input id="withdrawPassword" type="password" autocomplete="current-password" placeholder="Enter your password">
-          <button id="withdrawButton" class="primary-button">Submit Withdrawal Request</button>
-          <p id="withdrawMessage" class="form-message" aria-live="polite"></p>
-        </div>
-      </section>
-
-      <section id="account" class="content-section two-column">
-        <div class="form-card">
-          <span class="eyebrow">PROFILE SETTINGS</span>
-          <h2>My Account</h2>
-          <p><strong>Name:</strong> <span id="accountName">—</span></p>
-          <p><strong>Email:</strong> <span id="accountEmail">—</span></p>
-          <label for="newPassword">New password</label>
-          <input id="newPassword" type="password" minlength="6" placeholder="At least 6 characters">
-          <button id="changePasswordButton" class="outline-button">Change Password</button>
-          <p id="passwordMessage" class="form-message" aria-live="polite"></p>
-        </div>
-
-        <div id="support" class="form-card">
-          <span class="eyebrow">WE ARE HERE TO HELP</span>
-          <h2>Customer Service</h2>
-          <p class="muted">For deposit instructions, account issues and general questions, contact the official support team.</p>
-          <a id="supportLink" class="primary-button button-link" href="mailto:support@example.com">Contact Support</a>
-          <h3>About Easy Earn</h3>
-          <p id="aboutText" class="muted">Easy Earn is a member portal for account services, tasks and membership information.</p>
-        </div>
-      </section>
-
-      <section id="adminSection" class="content-section hidden">
-        <div class="section-heading">
-          <div>
-            <span class="eyebrow">ADMINISTRATION</span>
-            <h2>Admin Panel</h2>
-            <p class="muted">Manage tasks, VIP settings, member accounts and payment requests.</p>
-          </div>
-          <span class="admin-badge">Administrator</span>
-        </div>
-
-        <div class="admin-grid">
-          <div class="form-card">
-            <h3>Add a Task</h3>
-            <label for="adminTaskTitle">Task title</label>
-            <input id="adminTaskTitle" type="text" placeholder="Task name">
-            <label for="adminTaskUrl">Task URL</label>
-            <input id="adminTaskUrl" type="url" placeholder="https://example.com">
-            <label for="adminTaskVip">Required VIP</label>
-            <select id="adminTaskVip">
-              <option value="0">All members</option>
-              <option value="1">VIP 1</option><option value="2">VIP 2</option>
-              <option value="3">VIP 3</option><option value="4">VIP 4</option>
-              <option value="5">VIP 5</option><option value="6">VIP 6</option>
-              <option value="7">VIP 7</option><option value="8">VIP 8</option>
-              <option value="9">VIP 9</option><option value="10">VIP 10</option>
-            </select>
-            <label for="adminTaskReward">Reward display (BDT)</label>
-            <input id="adminTaskReward" type="number" min="0" placeholder="0">
-            <button id="addTaskButton" class="primary-button">Add Task</button>
-            <p id="adminTaskMessage" class="form-message" aria-live="polite"></p>
-          </div>
-
-          <div class="form-card">
-            <h3>Company Settings</h3>
-            <label for="adminCompanyName">Company name</label>
-            <input id="adminCompanyName" type="text" value="Easy Earn">
-            <label for="adminSupportEmail">Support email</label>
-            <input id="adminSupportEmail" type="email" placeholder="support@example.com">
-            <label for="adminAbout">About company</label>
-            <textarea id="adminAbout" rows="3" placeholder="Company information"></textarea>
-            <button id="saveSettingsButton" class="primary-button">Save Settings</button>
-            <p id="settingsMessage" class="form-message" aria-live="polite"></p>
-          </div>
-
-          <div class="form-card">
-            <h3>VIP Configuration</h3>
-            <label for="adminVipLevel">VIP level</label>
-            <select id="adminVipLevel">
-              <option value="1">VIP 1</option><option value="2">VIP 2</option>
-              <option value="3">VIP 3</option><option value="4">VIP 4</option>
-              <option value="5">VIP 5</option><option value="6">VIP 6</option>
-              <option value="7">VIP 7</option><option value="8">VIP 8</option>
-              <option value="9">VIP 9</option><option value="10">VIP 10</option>
-            </select>
-            <label for="adminVipCost">Upgrade amount (BDT)</label>
-            <input id="adminVipCost" type="number" min="0" placeholder="0">
-            <label for="adminVipDaily">Daily commission display (BDT)</label>
-            <input id="adminVipDaily" type="number" min="0" placeholder="0">
-            <button id="saveVipButton" class="primary-button">Save VIP Level</button>
-            <p id="vipMessage" class="form-message" aria-live="polite"></p>
-          </div>
-
-          <div class="form-card">
-            <h3>Find Member</h3>
-            <label for="adminMemberEmail">Member email</label>
-            <input id="adminMemberEmail" type="email" placeholder="member@example.com">
-            <label for="adminMemberBalance">Set balance (BDT)</label>
-            <input id="adminMemberBalance" type="number" min="0" placeholder="0">
-            <label for="adminMemberVip">Set VIP level</label>
-            <select id="adminMemberVip">
-              <option value="0">VIP 0</option>
-              <option value="1">VIP 1</option><option value="2">VIP 2</option>
-              <option value="3">VIP 3</option><option value="4">VIP 4</option>
-              <option value="5">VIP 5</option><option value="6">VIP 6</option>
-              <option value="7">VIP 7</option><option value="8">VIP 8</option>
-              <option value="9">VIP 9</option><option value="10">VIP 10</option>
-            </select>
-            <button id="findMemberButton" class="outline-button">Find Member</button>
-            <button id="saveMemberButton" class="primary-button">Save Member Changes</button>
-            <p id="memberMessage" class="form-message" aria-live="polite"></p>
-          </div>
-        </div>
-
-        <div class="form-card admin-requests">
-          <h3>Payment Requests</h3>
-          <div id="adminRequestsList"><p class="muted">No requests loaded.</p></div>
-        </div>
-
-        <div class="form-card admin-requests">
-          <h3>Task Submissions</h3>
-          <div id="adminSubmissionsList"><p class="muted">No submissions loaded.</p></div>
-        </div>
-      </section>
-    </section>
-  </main>
-
-  <footer class="footer">
-    <a href="#" class="brand footer-brand"><span class="brand-icon">E</span><span>Easy <b>Earn</b></span></a>
-    <p>Member services portal</p>
-    <p class="footer-small">Use this site responsibly. Displayed commissions are not guaranteed income.</p>
-    <span>© <span id="currentYear"></span> Easy Earn</span>
-  </footer>
-
-  <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-  <script type="module" src="app.js"></script>
-</body>
-</html>
+    <button id="withdrawButton" class="primary-button">
+      Submit Withdrawal Request
+    </button>
+    <p id="withdrawMessage" class="form-message" aria-live="polite"></p>
+  </div>
+</section>
