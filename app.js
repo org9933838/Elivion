@@ -29,23 +29,20 @@ import {
 
 /* =====================================
    1. FIREBASE CONFIGURATION
-   Firebase Console > Project settings
-   > General > Your apps > Web app
 ===================================== */
 
 const firebaseConfig = {
-  apiKey: "PASTE_YOUR_API_KEY",
-  authDomain: "PASTE_YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "PASTE_YOUR_PROJECT_ID",
-  storageBucket: "PASTE_YOUR_PROJECT_ID.firebasestorage.app",
-  messagingSenderId: "PASTE_YOUR_MESSAGING_SENDER_ID",
-  appId: "PASTE_YOUR_APP_ID"
+  apiKey: "AIzaSyB4bpo6md65Us-eKFDZtTQktNTMlosMwfQ",
+  authDomain: "easy-earn-platform.firebaseapp.com",
+  projectId: "easy-earn-platform",
+  storageBucket: "easy-earn-platform.firebasestorage.app",
+  messagingSenderId: "547908408028",
+  appId: "1:547908408028:web:0078ab9905e36d96ad1a19"
 };
 
-/* Firebase Authentication থেকে Admin UID বসান */
+/* Firebase Authentication থেকে Admin UID বসাতে হবে */
 const ADMIN_UID = "PASTE_ADMIN_USER_UID";
 
-/* নিজের support email বা official support URL বসান */
 const DEFAULT_SUPPORT = "mailto:support@example.com";
 
 /* =====================================
@@ -66,7 +63,11 @@ let selectedMember = null;
 let toastTimer = null;
 
 const isAdmin = () =>
-  Boolean(currentUser && currentUser.uid === ADMIN_UID);
+  Boolean(
+    currentUser &&
+    ADMIN_UID !== "PASTE_ADMIN_USER_UID" &&
+    currentUser.uid === ADMIN_UID
+  );
 
 const money = (value) =>
   "৳" + Number(value || 0).toLocaleString("en-BD", {
@@ -75,10 +76,15 @@ const money = (value) =>
   });
 
 function validConfig() {
-  return (
+  return Boolean(
+    firebaseConfig.apiKey &&
+    firebaseConfig.authDomain &&
+    firebaseConfig.projectId &&
+    firebaseConfig.storageBucket &&
+    firebaseConfig.messagingSenderId &&
+    firebaseConfig.appId &&
     firebaseConfig.apiKey !== "PASTE_YOUR_API_KEY" &&
-    firebaseConfig.projectId !== "PASTE_YOUR_PROJECT_ID" &&
-    ADMIN_UID !== "PASTE_ADMIN_USER_UID"
+    firebaseConfig.projectId !== "PASTE_YOUR_PROJECT_ID"
   );
 }
 
@@ -92,6 +98,7 @@ function message(id, text, type = "") {
 
 function toast(text) {
   const element = $("toast");
+
   if (!element) {
     alert(text);
     return;
@@ -185,7 +192,7 @@ if ($("currentYear")) {
 if (!validConfig()) {
   message(
     "loginMessage",
-    "Firebase setup incomplete. Add your Firebase configuration and Admin UID in app.js.",
+    "Firebase configuration is incomplete.",
     "error"
   );
 }
@@ -266,19 +273,24 @@ $("registerForm")?.addEventListener("submit", async (event) => {
   if (!validConfig()) {
     message(
       "registerMessage",
-      "Complete Firebase configuration first.",
+      "Firebase configuration is incomplete.",
       "error"
     );
     return;
   }
 
   const name = $("registerName")?.value.trim() || "";
-  const email = $("registerEmail")?.value.trim().toLowerCase() || "";
+  const email =
+    $("registerEmail")?.value.trim().toLowerCase() || "";
   const password = $("registerPassword")?.value || "";
   const confirm = $("confirmPassword")?.value || "";
 
   if (!name || !email) {
-    message("registerMessage", "Enter your name and email.", "error");
+    message(
+      "registerMessage",
+      "Enter your name and email.",
+      "error"
+    );
     return;
   }
 
@@ -292,7 +304,11 @@ $("registerForm")?.addEventListener("submit", async (event) => {
   }
 
   if (password !== confirm) {
-    message("registerMessage", "Passwords do not match.", "error");
+    message(
+      "registerMessage",
+      "Passwords do not match.",
+      "error"
+    );
     return;
   }
 
@@ -313,7 +329,11 @@ $("registerForm")?.addEventListener("submit", async (event) => {
       "success"
     );
   } catch (error) {
-    message("registerMessage", friendlyAuthError(error), "error");
+    message(
+      "registerMessage",
+      friendlyAuthError(error),
+      "error"
+    );
   }
 });
 
@@ -330,10 +350,14 @@ function friendlyAuthError(error) {
     "auth/weak-password": "Please use a stronger password.",
     "auth/invalid-email": "Enter a valid email address.",
     "auth/too-many-requests": "Too many attempts. Try again later.",
-    "auth/network-request-failed": "Check your internet connection."
+    "auth/network-request-failed": "Check your internet connection.",
+    "auth/operation-not-allowed": "Enable Email/Password in Firebase Authentication.",
+    "auth/unauthorized-domain": "Add your website domain to Firebase authorized domains."
   };
 
-  return errors[error.code] || error.message || "Something went wrong.";
+  return errors[error.code] ||
+    error.message ||
+    "Something went wrong.";
 }
 
 $("loginForm")?.addEventListener("submit", async (event) => {
@@ -342,7 +366,11 @@ $("loginForm")?.addEventListener("submit", async (event) => {
   message("loginMessage", "");
 
   if (!validConfig()) {
-    message("loginMessage", "Complete Firebase setup first.", "error");
+    message(
+      "loginMessage",
+      "Firebase configuration is incomplete.",
+      "error"
+    );
     return;
   }
 
@@ -355,15 +383,24 @@ $("loginForm")?.addEventListener("submit", async (event) => {
       $("loginPassword").value
     );
   } catch (error) {
-    message("loginMessage", friendlyAuthError(error), "error");
+    message(
+      "loginMessage",
+      friendlyAuthError(error),
+      "error"
+    );
   }
 });
 
 $("forgotPassword")?.addEventListener("click", async () => {
-  const email = $("loginEmail")?.value.trim().toLowerCase() || "";
+  const email =
+    $("loginEmail")?.value.trim().toLowerCase() || "";
 
   if (!email) {
-    message("loginMessage", "Enter your email address first.", "error");
+    message(
+      "loginMessage",
+      "Enter your email address first.",
+      "error"
+    );
     $("loginEmail")?.focus();
     return;
   }
@@ -377,7 +414,11 @@ $("forgotPassword")?.addEventListener("click", async () => {
       "success"
     );
   } catch (error) {
-    message("loginMessage", friendlyAuthError(error), "error");
+    message(
+      "loginMessage",
+      friendlyAuthError(error),
+      "error"
+    );
   }
 });
 
@@ -402,6 +443,7 @@ onAuthStateChanged(auth, async (user) => {
   if (!user) {
     currentProfile = null;
     selectedMember = null;
+    setHidden("adminSection", true);
     return;
   }
 
@@ -435,7 +477,9 @@ onAuthStateChanged(auth, async (user) => {
     }
   } catch (error) {
     console.error(error);
-    toast("Could not load data. Check Firebase configuration and rules.");
+    toast(
+      "Could not load data. Check Firebase configuration and Firestore rules."
+    );
   }
 });
 
@@ -462,7 +506,10 @@ async function loadSettings() {
 
   if ($("supportLink")) {
     const support = settings.support || DEFAULT_SUPPORT;
-    $("supportLink").href = safeHttpUrl(support) || support;
+
+    $("supportLink").href =
+      safeHttpUrl(support) ||
+      (support.startsWith("mailto:") ? support : DEFAULT_SUPPORT);
   }
 
   const brand = document.querySelector(".brand span:last-child");
@@ -473,7 +520,8 @@ async function loadSettings() {
 
   if (isAdmin()) {
     if ($("adminCompanyName")) {
-      $("adminCompanyName").value = settings.companyName || "Easy Earn";
+      $("adminCompanyName").value =
+        settings.companyName || "Easy Earn";
     }
 
     if ($("adminSupportEmail")) {
@@ -489,7 +537,8 @@ async function loadSettings() {
 $("saveSettingsButton")?.addEventListener("click", async () => {
   if (!isAdmin()) return;
 
-  const support = $("adminSupportEmail")?.value.trim() || DEFAULT_SUPPORT;
+  const support =
+    $("adminSupportEmail")?.value.trim() || DEFAULT_SUPPORT;
 
   try {
     await setDoc(
@@ -505,10 +554,19 @@ $("saveSettingsButton")?.addEventListener("click", async () => {
     );
 
     await loadSettings();
-    message("settingsMessage", "Company settings saved.", "success");
+
+    message(
+      "settingsMessage",
+      "Company settings saved.",
+      "success"
+    );
   } catch (error) {
     console.error(error);
-    message("settingsMessage", "Could not save settings.", "error");
+    message(
+      "settingsMessage",
+      "Could not save settings. Check admin permissions.",
+      "error"
+    );
   }
 });
 
@@ -533,7 +591,9 @@ async function loadVipSettings() {
     }));
   }
 
-  vipSettings.sort((a, b) => Number(a.level) - Number(b.level));
+  vipSettings.sort(
+    (a, b) => Number(a.level) - Number(b.level)
+  );
 
   renderVipSettings();
 
@@ -596,7 +656,11 @@ $("saveVipButton")?.addEventListener("click", async () => {
     cost < 0 ||
     daily < 0
   ) {
-    message("vipMessage", "Enter a VIP level from 1 to 10 and valid amounts.", "error");
+    message(
+      "vipMessage",
+      "Enter a VIP level from 1 to 10 and valid amounts.",
+      "error"
+    );
     return;
   }
 
@@ -613,10 +677,15 @@ $("saveVipButton")?.addEventListener("click", async () => {
     );
 
     message("vipMessage", "VIP level saved.", "success");
+
     await loadVipSettings();
   } catch (error) {
     console.error(error);
-    message("vipMessage", "Could not save VIP level.", "error");
+    message(
+      "vipMessage",
+      "Could not save VIP level. Check admin permissions.",
+      "error"
+    );
   }
 });
 
@@ -689,7 +758,9 @@ $("addTaskButton")?.addEventListener("click", async () => {
   message("adminTaskMessage", "");
 
   const title = $("adminTaskTitle")?.value.trim() || "";
-  const url = safeHttpUrl($("adminTaskUrl")?.value.trim() || "");
+  const url = safeHttpUrl(
+    $("adminTaskUrl")?.value.trim() || ""
+  );
   const reward = Number($("adminTaskReward")?.value || 0);
   const requiredVip = Number($("adminTaskVip")?.value || 0);
 
@@ -725,26 +796,39 @@ $("addTaskButton")?.addEventListener("click", async () => {
     $("adminTaskUrl").value = "";
     $("adminTaskReward").value = "";
 
-    message("adminTaskMessage", "Task added successfully.", "success");
+    message(
+      "adminTaskMessage",
+      "Task added successfully.",
+      "success"
+    );
 
     await loadTasks();
   } catch (error) {
     console.error(error);
-    message("adminTaskMessage", "Could not add task. Check admin permissions.", "error");
+    message(
+      "adminTaskMessage",
+      "Could not add task. Check admin permissions.",
+      "error"
+    );
   }
 });
 
 async function submitTask(taskId) {
   if (!currentUser || !currentProfile) return;
 
-  const task = availableTasks.find((item) => item.id === taskId);
+  const task = availableTasks.find(
+    (item) => item.id === taskId
+  );
 
   if (!task || task.active === false) {
     toast("Task is not available.");
     return;
   }
 
-  if (Number(task.requiredVip || 0) > Number(currentProfile.vip || 0)) {
+  if (
+    Number(task.requiredVip || 0) >
+    Number(currentProfile.vip || 0)
+  ) {
     toast("Your VIP level is not high enough for this task.");
     return;
   }
@@ -801,10 +885,13 @@ async function loadHistory() {
     where("uid", "==", currentUser.uid)
   ));
 
-  const records = snapshot.docs.map((item) => item.data());
+  const records = snapshot.docs.map(
+    (item) => item.data()
+  );
 
   records.sort((a, b) =>
-    (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)
+    (b.createdAt?.seconds || 0) -
+    (a.createdAt?.seconds || 0)
   );
 
   if ($("completedTasks")) {
@@ -840,10 +927,15 @@ $("depositButton")?.addEventListener("click", async () => {
 
   const amount = Number($("depositAmount")?.value);
   const method = $("depositMethod")?.value || "";
-  const reference = $("depositReference")?.value.trim() || "";
+  const reference =
+    $("depositReference")?.value.trim() || "";
 
   if (!Number.isFinite(amount) || amount <= 0) {
-    message("depositMessage", "Enter a valid amount.", "error");
+    message(
+      "depositMessage",
+      "Enter a valid amount.",
+      "error"
+    );
     return;
   }
 
@@ -880,7 +972,11 @@ $("depositButton")?.addEventListener("click", async () => {
     if (isAdmin()) await loadAdminRequests();
   } catch (error) {
     console.error(error);
-    message("depositMessage", "Request failed. Check Firestore rules.", "error");
+    message(
+      "depositMessage",
+      "Request failed. Check Firestore rules.",
+      "error"
+    );
   }
 });
 
@@ -894,17 +990,26 @@ $("withdrawButton")?.addEventListener("click", async () => {
   message("withdrawMessage", "");
 
   const amount = Number($("withdrawAmount")?.value);
-  const payoutAccount = $("withdrawAccount")?.value.trim() || "";
+  const payoutAccount =
+    $("withdrawAccount")?.value.trim() || "";
   const password = $("withdrawPassword")?.value || "";
   const method = $("withdrawMethod")?.value || "";
 
   if (!Number.isFinite(amount) || amount < 50) {
-    message("withdrawMessage", "Minimum withdrawal request is ৳50.", "error");
+    message(
+      "withdrawMessage",
+      "Minimum withdrawal request is ৳50.",
+      "error"
+    );
     return;
   }
 
   if (amount > Number(currentProfile.balance || 0)) {
-    message("withdrawMessage", "Insufficient displayed balance.", "error");
+    message(
+      "withdrawMessage",
+      "Insufficient displayed balance.",
+      "error"
+    );
     return;
   }
 
@@ -923,7 +1028,10 @@ $("withdrawButton")?.addEventListener("click", async () => {
       password
     );
 
-    await reauthenticateWithCredential(currentUser, credential);
+    await reauthenticateWithCredential(
+      currentUser,
+      credential
+    );
 
     await addDoc(collection(db, "paymentRequests"), {
       uid: currentUser.uid,
@@ -936,7 +1044,11 @@ $("withdrawButton")?.addEventListener("click", async () => {
       createdAt: serverTimestamp()
     });
 
-    message("withdrawMessage", "Withdrawal request submitted for review.", "success");
+    message(
+      "withdrawMessage",
+      "Withdrawal request submitted for review.",
+      "success"
+    );
 
     $("withdrawAmount").value = "";
     $("withdrawAccount").value = "";
@@ -945,7 +1057,11 @@ $("withdrawButton")?.addEventListener("click", async () => {
     if (isAdmin()) await loadAdminRequests();
   } catch (error) {
     console.error(error);
-    message("withdrawMessage", friendlyAuthError(error), "error");
+    message(
+      "withdrawMessage",
+      friendlyAuthError(error),
+      "error"
+    );
   }
 });
 
@@ -961,7 +1077,11 @@ $("changePasswordButton")?.addEventListener("click", async () => {
   const newPassword = $("newPassword")?.value || "";
 
   if (newPassword.length < 6) {
-    message("passwordMessage", "Password must be at least 6 characters.", "error");
+    message(
+      "passwordMessage",
+      "Password must be at least 6 characters.",
+      "error"
+    );
     return;
   }
 
@@ -970,7 +1090,11 @@ $("changePasswordButton")?.addEventListener("click", async () => {
 
     $("newPassword").value = "";
 
-    message("passwordMessage", "Password updated successfully.", "success");
+    message(
+      "passwordMessage",
+      "Password updated successfully.",
+      "success"
+    );
   } catch (error) {
     console.error(error);
 
@@ -991,10 +1115,15 @@ $("findMemberButton")?.addEventListener("click", async () => {
 
   message("memberMessage", "");
 
-  const email = $("adminMemberEmail")?.value.trim().toLowerCase() || "";
+  const email =
+    $("adminMemberEmail")?.value.trim().toLowerCase() || "";
 
   if (!email) {
-    message("memberMessage", "Enter the member email.", "error");
+    message(
+      "memberMessage",
+      "Enter the member email.",
+      "error"
+    );
     return;
   }
 
@@ -1029,10 +1158,18 @@ $("findMemberButton")?.addEventListener("click", async () => {
     $("adminMemberVip").value =
       String(Number(selectedMember.vip || 0));
 
-    message("memberMessage", "Member loaded.", "success");
+    message(
+      "memberMessage",
+      "Member loaded.",
+      "success"
+    );
   } catch (error) {
     console.error(error);
-    message("memberMessage", "Could not search members.", "error");
+    message(
+      "memberMessage",
+      "Could not search members.",
+      "error"
+    );
   }
 });
 
@@ -1044,7 +1181,11 @@ $("saveMemberButton")?.addEventListener("click", async () => {
   if (!isAdmin()) return;
 
   if (!selectedMember) {
-    message("memberMessage", "Find a member first.", "error");
+    message(
+      "memberMessage",
+      "Find a member first.",
+      "error"
+    );
     return;
   }
 
@@ -1052,23 +1193,38 @@ $("saveMemberButton")?.addEventListener("click", async () => {
   const vip = Number($("adminMemberVip")?.value);
 
   if (!Number.isFinite(balance) || balance < 0) {
-    message("memberMessage", "Balance cannot be negative.", "error");
+    message(
+      "memberMessage",
+      "Balance cannot be negative.",
+      "error"
+    );
     return;
   }
 
   if (!Number.isInteger(vip) || vip < 0 || vip > 10) {
-    message("memberMessage", "VIP must be between 0 and 10.", "error");
+    message(
+      "memberMessage",
+      "VIP must be between 0 and 10.",
+      "error"
+    );
     return;
   }
 
   try {
-    await updateDoc(doc(db, "users", selectedMember.id), {
-      balance,
-      vip,
-      updatedAt: serverTimestamp()
-    });
+    await updateDoc(
+      doc(db, "users", selectedMember.id),
+      {
+        balance,
+        vip,
+        updatedAt: serverTimestamp()
+      }
+    );
 
-    message("memberMessage", "Member settings updated.", "success");
+    message(
+      "memberMessage",
+      "Member settings updated.",
+      "success"
+    );
 
     if (selectedMember.id === currentUser.uid) {
       await refreshProfile();
@@ -1077,7 +1233,11 @@ $("saveMemberButton")?.addEventListener("click", async () => {
     }
   } catch (error) {
     console.error(error);
-    message("memberMessage", "Could not update member. Check admin rules.", "error");
+    message(
+      "memberMessage",
+      "Could not update member. Check admin rules.",
+      "error"
+    );
   }
 });
 
@@ -1091,7 +1251,9 @@ async function loadAdminRequests() {
   const container = $("adminRequestsList");
   if (!container) return;
 
-  const snapshot = await getDocs(collection(db, "paymentRequests"));
+  const snapshot = await getDocs(
+    collection(db, "paymentRequests")
+  );
 
   const requests = snapshot.docs.map((item) => ({
     id: item.id,
@@ -1099,11 +1261,13 @@ async function loadAdminRequests() {
   }));
 
   requests.sort((a, b) =>
-    (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)
+    (b.createdAt?.seconds || 0) -
+    (a.createdAt?.seconds || 0)
   );
 
   if (!requests.length) {
-    container.innerHTML = '<p class="muted">No payment requests yet.</p>';
+    container.innerHTML =
+      '<p class="muted">No payment requests yet.</p>';
     return;
   }
 
@@ -1145,7 +1309,6 @@ async function loadAdminRequests() {
 
 async function reviewPaymentRequest(requestId, action) {
   if (!isAdmin()) return;
-
   if (!["approve", "reject"].includes(action)) return;
 
   const requestRef = doc(db, "paymentRequests", requestId);
@@ -1174,7 +1337,9 @@ async function reviewPaymentRequest(requestId, action) {
         throw new Error("Member profile missing.");
       }
 
-      const balance = Number(memberSnapshot.data().balance || 0);
+      const balance = Number(
+        memberSnapshot.data().balance || 0
+      );
       const amount = Number(request.amount || 0);
 
       if (!Number.isFinite(amount) || amount <= 0) {
@@ -1186,17 +1351,19 @@ async function reviewPaymentRequest(requestId, action) {
           balance: balance + amount,
           updatedAt: serverTimestamp()
         });
-      }
-
-      if (request.type === "withdrawal") {
+      } else if (request.type === "withdrawal") {
         if (amount > balance) {
-          throw new Error("Insufficient balance for withdrawal approval.");
+          throw new Error(
+            "Insufficient balance for withdrawal approval."
+          );
         }
 
         await updateDoc(memberRef, {
           balance: balance - amount,
           updatedAt: serverTimestamp()
         });
+      } else {
+        throw new Error("Unknown payment request type.");
       }
     }
 
@@ -1215,7 +1382,9 @@ async function reviewPaymentRequest(requestId, action) {
     }
   } catch (error) {
     console.error(error);
-    toast("Review failed. Verify payment and check Firestore rules.");
+    toast(
+      "Review failed. Verify payment and check Firestore rules."
+    );
   }
 }
 
@@ -1229,7 +1398,9 @@ async function loadAdminSubmissions() {
   const container = $("adminSubmissionsList");
   if (!container) return;
 
-  const snapshot = await getDocs(collection(db, "taskSubmissions"));
+  const snapshot = await getDocs(
+    collection(db, "taskSubmissions")
+  );
 
   const submissions = snapshot.docs.map((item) => ({
     id: item.id,
@@ -1237,11 +1408,13 @@ async function loadAdminSubmissions() {
   }));
 
   submissions.sort((a, b) =>
-    (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0)
+    (b.createdAt?.seconds || 0) -
+    (a.createdAt?.seconds || 0)
   );
 
   if (!submissions.length) {
-    container.innerHTML = '<p class="muted">No task submissions yet.</p>';
+    container.innerHTML =
+      '<p class="muted">No task submissions yet.</p>';
     return;
   }
 
@@ -1283,11 +1456,15 @@ async function loadAdminSubmissions() {
 
 async function reviewSubmission(submissionId, action) {
   if (!isAdmin()) return;
-
   if (!["approve", "reject"].includes(action)) return;
 
   try {
-    const submissionRef = doc(db, "taskSubmissions", submissionId);
+    const submissionRef = doc(
+      db,
+      "taskSubmissions",
+      submissionId
+    );
+
     const snapshot = await getDoc(submissionRef);
 
     if (!snapshot.exists()) {
@@ -1325,14 +1502,15 @@ async function reviewSubmission(submissionId, action) {
         throw new Error("Member profile missing.");
       }
 
-      /* Reward comes from the task record, not the submission form. */
       const reward = Number(task.reward || 0);
 
       if (!Number.isFinite(reward) || reward < 0) {
         throw new Error("Invalid task reward.");
       }
 
-      const balance = Number(userSnapshot.data().balance || 0);
+      const balance = Number(
+        userSnapshot.data().balance || 0
+      );
 
       await updateDoc(userRef, {
         balance: balance + reward,
@@ -1356,6 +1534,8 @@ async function reviewSubmission(submissionId, action) {
     }
   } catch (error) {
     console.error(error);
-    toast("Could not review submission. Check Firestore permissions.");
+    toast(
+      "Could not review submission. Check Firestore permissions."
+    );
   }
 }
