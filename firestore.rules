@@ -1,0 +1,81 @@
+
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    // Replace this value with your administrator's Firebase UID.
+    function isAdmin() {
+      return signedIn()
+        && request.auth.uid == "PASTE_ADMIN_USER_UID";
+    }
+
+    function isOwner(userId) {
+      return signedIn() && request.auth.uid == userId;
+    }
+
+    match /users/{userId} {
+      allow read: if isOwner(userId) || isAdmin();
+
+      allow create: if isOwner(userId)
+        && request.resource.data.uid == userId
+        && request.resource.data.balance == 0
+        && request.resource.data.vip == 0;
+
+      // Members cannot directly change their balance or VIP.
+      allow update: if isAdmin();
+
+      allow delete: if isAdmin();
+    }
+
+    match /tasks/{taskId} {
+      allow read: if signedIn();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /vipLevels/{levelId} {
+      allow read: if signedIn();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /settings/{settingId} {
+      allow read: if signedIn();
+      allow create, update, delete: if isAdmin();
+    }
+
+    match /taskSubmissions/{submissionId} {
+      allow read: if signedIn()
+        && (
+          resource.data.uid == request.auth.uid
+          || isAdmin()
+        );
+
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.status == "pending"
+        && request.resource.data.reward >= 0;
+
+      allow update, delete: if isAdmin();
+    }
+
+    match /paymentRequests/{requestId} {
+      allow read: if isAdmin()
+        || (
+          signedIn()
+          && resource.data.uid == request.auth.uid
+        );
+
+      allow create: if signedIn()
+        && request.resource.data.uid == request.auth.uid
+        && request.resource.data.status == "pending"
+        && request.resource.data.amount > 0
+        && request.resource.data.type in ["deposit", "withdrawal"];
+
+      allow update, delete: if isAdmin();
+    }
+  }
+}
